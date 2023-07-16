@@ -1,7 +1,8 @@
-import { createSignal, type Component } from "solid-js";
 import axios, { type CancelTokenSource } from "axios";
+import SearchResults from "./SearchResults";
+import { useState, type ChangeEvent } from "react";
 
-type Post = {
+export type Post = {
   userId: number;
   id: number;
   title: string;
@@ -10,19 +11,13 @@ type Post = {
 
 const baseUrl = "https://jsonplaceholder.typicode.com";
 
-type InputE = InputEvent & {
-  currentTarget: HTMLInputElement;
-  target: HTMLInputElement;
-};
-
-const Searchbar: Component = () => {
-  const [search, setSearch] = createSignal("");
-  const [results, setResults] = createSignal<Post>();
+const Searchbar = () => {
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState<Post[]>();
   let cancelTokenSource: CancelTokenSource | null = null;
 
-  const inputHandler = async (e: InputE) => {
+  const inputHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    const validId = +value / 100;
     setSearch(value);
 
     // Cancel the previous request if it exists
@@ -34,13 +29,14 @@ const Searchbar: Component = () => {
     cancelTokenSource = axios.CancelToken.source();
 
     try {
-      const { data } = await axios.get(`${baseUrl}/posts/${value}`, {
+      const validId = (+value % 100) + 1;
+      const { data } = await axios.get<Post>(`${baseUrl}/posts/${validId}`, {
         // Assign the cancel token to the request
         cancelToken: cancelTokenSource.token,
       });
 
       // Process the response or update the state here
-      setResults(data);
+      setResults([data, data, data, data]);
       console.log(data);
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -54,9 +50,20 @@ const Searchbar: Component = () => {
   };
 
   return (
-    <form>
-      <input type="number" value={search()} onInput={inputHandler} />
-    </form>
+    <>
+      <form>
+        <input
+          type="number"
+          value={search}
+          onChange={inputHandler}
+          className="bg-blue-700"
+        />
+      </form>
+
+      {results?.map((item, i) => (
+        <SearchResults key={i} post={item} />
+      ))}
+    </>
   );
 };
 

@@ -2,6 +2,10 @@
 
 https://docs.astro.build/en/guides/typescript/#errors-typing-multiple-jsx-frameworks-at-the-same-time
 
+# img opt
+
+- create a csutom copm that accepts an aray of widths & that returns arrayN componets with the media query astro directive
+
 ## 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:

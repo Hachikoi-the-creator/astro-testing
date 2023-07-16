@@ -1,13 +1,72 @@
 ---
 // import Card from '~/components/Card.astro';
-import ControlInput from '~/components/ControlInput';
-import Searchbar from '~/components/Searchbar.tsx';
-import Layout from '~/layouts/Layout.astro';
+
+import axios from "axios";
+import Searchbar from "~/components/Searchbar.tsx";
+import Layout from "~/layouts/Layout.astro";
+
+import img1 from "~/assets/img1.jpg";
+import img2 from "~/assets/img2.jpg";
+import img3 from "~/assets/img3.jpeg";
+import { Image } from "astro:assets";
+
+type Todo = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: false;
+};
+
+const { data: todos } = await axios<Todo[]>(
+  "https://jsonplaceholder.typicode.com/todos"
+);
 ---
 
 <Layout title="Ohayou sekai!">
-	<main>
-		<h1>Welcome to <span class="text-gradient">These nutz</span></h1>
-		<Searchbar client:load/>
-	</main>
+  <main>
+    <h1>Welcome to <span class="text-gradient">These nutz</span></h1>
+    <Searchbar client:load />
+
+    <div class="grid grid-cols-2 md:grid-cols-3 bg-violet-700">
+      <Image
+        alt={""}
+        src={img1}
+        quality="mid"
+        format="avif"
+        width={400}
+        height={400}
+        class="object-cover"
+      />
+      <Image
+        alt={""}
+        src={img2}
+        quality="mid"
+        format="avif"
+        width={400}
+        height={400}
+        class="object-cover"
+      />
+      <Image
+        alt={""}
+        src={img3}
+        quality="mid"
+        format="avif"
+        width={400}
+        height={400}
+        class="object-cover"
+      />
+    </div>
+
+    <section>
+      <h2>All todos</h2>
+      {
+        todos.map((to) => (
+          <div>
+            <p>{to.title}</p>
+            <p>{to.completed}</p>
+          </div>
+        ))
+      }
+    </section>
+  </main>
 </Layout>

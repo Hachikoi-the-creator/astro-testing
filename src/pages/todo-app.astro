@@ -1,0 +1,11 @@
+---
+import Layout from "~/layouts/Layout.astro";
+import Todo from "~/components/todo/Todo.tsx";
+---
+
+<Layout title="Classic todo app">
+  <main>
+    <!-- <Form /> -->
+    <Todo client:load />
+  </main>
+</Layout>
