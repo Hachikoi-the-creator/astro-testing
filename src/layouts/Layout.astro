@@ -27,6 +27,8 @@ const richStuff = {
     },
   ],
 };
+
+const stringStuff = JSON.stringify(richStuff);
 ---
 
 <!DOCTYPE html>
@@ -40,7 +42,7 @@ const richStuff = {
     <title>{title}</title>
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(richStuff) }}></script>
+      dangerouslySetInnerHTML={{ __html: stringStuff }}></script>
   </head>
   <body class="bg-violet-950 text-slate-50 text-lg">
     <slot />
