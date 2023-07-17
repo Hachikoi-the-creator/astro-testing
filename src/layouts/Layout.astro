@@ -4,6 +4,29 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const richStuff = {
+  "@context": "https://schema.org",
+  "@type": "Astrological",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Books",
+      item: "https://astrologic.vercel.app/books",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Science Fiction",
+      item: "https://astrologic.vercel.app/books/sciencefiction",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Award Winners",
+    },
+  ],
+};
 ---
 
 <!DOCTYPE html>
@@ -15,26 +38,9 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-		<script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Astrological",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Books",
-        "item": "https://astrologic.vercel.app/books"
-      },{
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Science Fiction",
-        "item": "https://astrologic.vercel.app/books/sciencefiction"
-      },{
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Award Winners"
-      }]
-    }
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(richStuff) }}></script>
   </head>
   <body class="bg-violet-950 text-slate-50 text-lg">
     <slot />
@@ -43,16 +49,16 @@ const { title } = Astro.props;
 
 // <!-- Google Tag Manager -->
 <script is:inline async>
-  (function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s),
-      dl = l != "dataLayer" ? "&l=" + l : "";
-    j.async = true;
-    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, "script", "dataLayer", "GTM-KJWS2MP");
+(function (w, d, s, l, i) {
+  w[l] = w[l] || [];
+  w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+  var f = d.getElementsByTagName(s)[0],
+    j = d.createElement(s),
+    dl = l != "dataLayer" ? "&l=" + l : "";
+  j.async = true;
+  j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+  f.parentNode.insertBefore(j, f);
+})(window, document, "script", "dataLayer", "GTM-KJWS2MP");
 </script>
 
 // <!-- Google Tag Manager (noscript) -->
