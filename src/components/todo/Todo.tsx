@@ -1,3 +1,5 @@
+/** @jsxImportSource solid-js */
+
 import { For } from "solid-js/web";
 import { createLocalStore, removeIndex } from "./utils";
 import { batch, createSignal } from "solid-js";
@@ -26,7 +28,10 @@ const Todo = () => {
       <h1 class="text-white text-2xl text-center font-sans m-5">
         Solid Todo App
       </h1>
-      <form onSubmit={addTodo} class="flex flex-col max-w-lg gap-2 mx-auto">
+      <form
+        onSubmit={addTodo}
+        class="flex flex-col max-w-lg gap-2 mx-auto mb-9"
+      >
         <input
           class="border border-gray-300 px-2 py-1 rounded-md"
           placeholder="enter todo and click +"
@@ -39,27 +44,27 @@ const Todo = () => {
         </button>
       </form>
 
-      <div class="mx-auto w-fit m-5 text-white">
-        <For each={todos}>
-          {(todo, i) => (
-            <div class="flex items-center gap-2 mb-2">
-              <input
-                autofocus
-                type="text"
-                value={todo.title}
-                onChange={(e) => setTodos(i(), "title", e.currentTarget.value)}
-                class={`border border-gray-300 px-2 py-1 text-blue-900 rounded-md ${
-                  todo.done && "line-through text-blue-400"
-                }`}
-              />
+      <For each={todos}>
+        {(todo, i) => (
+          <div class="gap-2 mb-2 w-full max-w-4xl mx-auto">
+            <input
+              autofocus
+              type="text"
+              value={todo.title}
+              onChange={(e) => setTodos(i(), "title", e.currentTarget.value)}
+              class={`border border-gray-300 px-2 py-1 text-blue-900 rounded-md w-full ${
+                todo.done && "line-through text-blue-400"
+              }`}
+            />
 
+            <div class="w-full flex justify-center gap-2 mt-1 mb-3">
               <button
                 onClick={() => {
                   if (todos[i()].done) setTodos((t) => removeIndex(t, i()));
                   else
                     console.log("you will need to complete the todo first mf");
                 }}
-                class="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-md"
+                class="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-md w-1/4 text-black"
               >
                 &#215;
               </button>
@@ -68,19 +73,18 @@ const Todo = () => {
                 onClick={() => {
                   setTodos(i(), "done", !todos[i()].done);
                 }}
-                class="bg-green-500 hover:bg-green-600 px-4 py-1 rounded-md"
+                class="bg-green-500 hover:bg-green-600 px-4 py-1 rounded-md w-1/4 text-black"
               >
                 &#10003;
               </button>
             </div>
-          )}
-        </For>
-      </div>
+          </div>
+        )}
+      </For>
 
       {/* to avoid accidents, need to press this button and the other one that will appear after that! */}
       <aside class="fixed bottom-2 right-2">
         <button
-          // onclick={() => }
           onclick={() => setDeleteConfirm(true)}
           class="p-2 bg-red-100 rounded-md text-red-700"
         >

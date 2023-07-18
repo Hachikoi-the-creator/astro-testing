@@ -9,6 +9,9 @@ import img1 from "~/assets/img1.jpg";
 import img2 from "~/assets/img2.jpg";
 import img3 from "~/assets/img3.jpeg";
 import { Image } from "astro:assets";
+import SwiperCarousel from "~/components/Carousel";
+import SwipeCopy from "~/components/SwipeCopy";
+import DocsSwipe from "~/components/DocsSwipe.astro";
 
 type Todo = {
   userId: number;
@@ -27,40 +30,12 @@ const { data: todos } = await axios<Todo[]>(
     <h1>Welcome to <span class="text-gradient">These nutz</span></h1>
     <Searchbar client:load />
 
-    <div class="grid grid-cols-2 md:grid-cols-3 bg-violet-700">
-      <Image
-        alt={""}
-        src={img1}
-        quality="mid"
-        format="avif"
-        width={380}
-        height={380}
-        class="object-cover w-96"
-      />
-      <Image
-        alt={""}
-        src={img2}
-        quality="mid"
-        format="avif"
-        width={380}
-        height={380}
-        class="object-cover w-96"
-      />
-      <Image
-        alt={""}
-        src={img3}
-        quality="mid"
-        format="avif"
-        width={380}
-        height={380}
-        class="object-cover w-96"
-      />
-    </div>
+    <DocsSwipe />
 
     <section>
       <h2>All todos</h2>
       {
-        todos.map((to) => (
+        todos.slice(3).map((to) => (
           <div>
             <p>{to.title}</p>
             <p>{to.completed}</p>
